@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %} New ToDo {% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <form action="newtodo" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" name="name" id="name" required>
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea type="text" class="form-control" name="description" id="description" required></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="datetime" class="form-label">Date</label>
+            <input type="datetime-local" name="datetime" id="datetime">
+        </div>
+        <button type="submit" class="btn btn-primary">Create</button>
+    </form>
+    {{ message }}
+</div>
+
+{% endblock %}

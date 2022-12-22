@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %} Login {% endblock %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+    <div class="container mt-5 text-center">
+        {%  if message|length != 0 %}
+
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Dead Line</th>
+                <th scope="col">Reminder Email Sent</th>
+                <th scope="col">Completed</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for todo in message %}
+                    <form action="index" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <tr>
+                            <td>{{ todo.id }}</td>
+                            <td>{{ todo.name }}</td>
+                            <td>{{ todo.description }}</td>
+                            <td>{{ todo.datetime }}</td>
+                            <td>{{ todo.emailSent }}</td>
+                            {% if not todo.completed %}
+                                <td>
+                                    <button type="submit" name="todoid" class="btn btn-primary" value="{{ todo.id }}">Check</button>
+                                </td>
+                            {% else %}
+                                <td>
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+                                </td>
+                            {% endif %}
+                        </tr>
+                    </form>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <h3>No ToDo</h3>
+        {% endif %}
+    </div>
+{% else %}
+    <div class="container mt-5 text-center">
+        {{ message }}
+    </div>
+{% endif %}
+
+{% endblock %}
